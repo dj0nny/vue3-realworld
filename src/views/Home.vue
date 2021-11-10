@@ -23,41 +23,8 @@
             </ul>
           </div>
 
-          <div class="article-preview">
-            <div class="article-meta">
-              <a href="profile.html"><img src="http://i.imgur.com/Qr71crq.jpg"/></a>
-              <div class="info">
-                <a href="" class="author">Eric Simons</a>
-                <span class="date">January 20th</span>
-              </div>
-              <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                <i class="ion-heart"></i> 29
-              </button>
-            </div>
-            <a href="" class="preview-link">
-              <h1>How to build webapps that scale</h1>
-              <p>This is the description for the post.</p>
-              <span>Read more...</span>
-            </a>
-          </div>
+          <ArticlesList :articles="articles" :error="articlesError" :loading="articlesLoading" />
 
-          <div class="article-preview">
-            <div class="article-meta">
-              <a href="profile.html"><img src="http://i.imgur.com/N4VcUeJ.jpg"/></a>
-              <div class="info">
-                <a href="" class="author">Albert Pai</a>
-                <span class="date">January 20th</span>
-              </div>
-              <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                <i class="ion-heart"></i> 32
-              </button>
-            </div>
-            <a href="" class="preview-link">
-              <h1>The song you won't ever stop singing. No matter how hard you try.</h1>
-              <p>This is the description for the post.</p>
-              <span>Read more...</span>
-            </a>
-          </div>
         </div>
 
         <div class="col-md-3">
@@ -77,11 +44,13 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 import Tags from '../components/Tags.vue';
+import ArticlesList from '../components/ArticlesList.vue';
 
 export default {
   name: 'Home',
   components: {
     Tags,
+    ArticlesList,
   },
   setup() {
     const store = useStore();
@@ -90,12 +59,20 @@ export default {
     const tagsLoading = computed(() => store.state.tags.isLoading);
     const tagsError = computed(() => store.state.tags.error);
 
+    const articles = computed(() => store.state.articles.articlesList);
+    const articlesLoading = computed(() => store.state.articles.isLoading);
+    const articlesError = computed(() => store.state.articles.error);
+
     store.dispatch('tags/getTags');
+    store.dispatch('articles/getArticles');
 
     return {
       tags,
       tagsLoading,
       tagsError,
+      articles,
+      articlesLoading,
+      articlesError,
     };
   },
 };

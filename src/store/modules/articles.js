@@ -3,7 +3,7 @@ import axiosInstance from '../../api';
 export default {
   namespaced: true,
   state: {
-    tagsList: [],
+    articlesList: null,
     isLoading: false,
     error: null,
   },
@@ -14,18 +14,18 @@ export default {
     setError(state, payload) {
       state.error = payload;
     },
-    setTags(state, payload) {
-      state.tagsList = payload;
+    setArticles(state, payload) {
+      state.articlesList = payload;
     },
   },
   actions: {
-    getTags({ commit }) {
+    getArticles({ commit }) {
       commit('setLoading', true);
       commit('setError', null);
 
-      axiosInstance.get('/tags').then((res) => {
-        const { tags } = res.data;
-        commit('setTags', tags);
+      axiosInstance.get('/articles').then((res) => {
+        const { articles } = res.data;
+        commit('setArticles', articles);
       }).catch((errors) => {
         commit('setError', errors.body);
       }).finally(() => {
