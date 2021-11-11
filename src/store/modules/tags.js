@@ -26,8 +26,8 @@ export default {
       axiosInstance.get('/tags').then((res) => {
         const { tags } = res.data;
         commit('setTags', tags);
-      }).catch((errors) => {
-        commit('setError', errors.body);
+      }).catch(({ response }) => {
+        commit('setError', response.data.errors);
       }).finally(() => {
         commit('setLoading', false);
       });

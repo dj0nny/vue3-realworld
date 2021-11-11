@@ -15,7 +15,7 @@
           <div class="feed-toggle">
             <ul class="nav nav-pills outline-active">
               <li class="nav-item">
-                <a class="nav-link disabled" href="">Your Feed</a>
+                <a class="nav-link disabled" href="" v-if="currentUser">Your Feed</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" href="">Global Feed</a>
@@ -63,6 +63,8 @@ export default {
     const articlesLoading = computed(() => store.state.articles.isLoading);
     const articlesError = computed(() => store.state.articles.error);
 
+    const currentUser = computed(() => store.state.auth.user);
+
     store.dispatch('tags/getTags');
     store.dispatch('articles/getArticles');
 
@@ -73,6 +75,7 @@ export default {
       articles,
       articlesLoading,
       articlesError,
+      currentUser,
     };
   },
 };

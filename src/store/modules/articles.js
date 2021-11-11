@@ -26,8 +26,8 @@ export default {
       axiosInstance.get('/articles').then((res) => {
         const { articles } = res.data;
         commit('setArticles', articles);
-      }).catch((errors) => {
-        commit('setError', errors.body);
+      }).catch(({ response }) => {
+        commit('setError', response.data.errors);
       }).finally(() => {
         commit('setLoading', false);
       });
