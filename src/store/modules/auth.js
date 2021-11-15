@@ -12,6 +12,9 @@ export default {
     checkAuth(state) {
       return state.isAuthenticated;
     },
+    getCurrentUser(state) {
+      return state.user;
+    },
   },
   mutations: {
     setLoading(state, payload) {
@@ -22,6 +25,9 @@ export default {
     },
     setUser(state, payload) {
       state.user = payload;
+    },
+    setAuth(state, payload) {
+      state.isAuthenticated = payload;
     },
   },
   actions: {
@@ -38,6 +44,7 @@ export default {
           commit('setUser', data.user);
         }).catch(({ response }) => {
           commit('setError', response.data.error);
+          localStorage.removeItem('token');
         }).finally(() => {
           commit('setLoading', false);
         });
@@ -52,6 +59,7 @@ export default {
         axiosInstance.post('/users', payload).then(({ data }) => {
           commit('setUser', data.user);
           localStorage.setItem('token', data.user.token);
+          commit('setAuth', data.user.token);
           resolve(data.user);
         }).catch(({ response }) => {
           commit('setError', response.data.errors);

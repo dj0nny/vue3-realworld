@@ -1,5 +1,5 @@
 <template>
-  <div class="settings-page">
+  <div class="settings-page" v-bind="!userLoading">
     <div class="container page">
       <div class="row">
 
@@ -36,7 +36,30 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
+
 export default {
   name: 'Settings',
+  setup() {
+    const store = useStore();
+
+    const userLoading = computed(() => store.state.auth.isLoading);
+
+    const urlProfile = ref('');
+    const name = ref('');
+    const bio = ref('');
+    const email = ref('');
+    const password = ref('');
+
+    return {
+      userLoading,
+      urlProfile,
+      name,
+      bio,
+      email,
+      password,
+    };
+  },
 };
 </script>

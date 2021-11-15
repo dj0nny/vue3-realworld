@@ -43,6 +43,14 @@ const routes = [
       auth: true,
     },
   },
+  {
+    path: '/article/:slug',
+    name: 'ArticleDetails',
+    component: () => import('../views/ArticleDetails.vue'),
+    meta: {
+      auth: true,
+    },
+  },
 ];
 
 const router = createRouter({
