@@ -7,16 +7,16 @@
             <form>
               <fieldset>
                 <fieldset class="form-group">
-                  <input type="text" class="form-control form-control-lg" placeholder="Article Title">
+                  <input type="text" v-model="title" class="form-control form-control-lg" placeholder="Article Title">
                 </fieldset>
                 <fieldset class="form-group">
-                  <input type="text" class="form-control" placeholder="What's this article about?">
+                  <input type="text" v-model="description" class="form-control" placeholder="What's this article about?">
                 </fieldset>
                 <fieldset class="form-group">
-                  <textarea class="form-control" rows="8" placeholder="Write your article (in markdown)"></textarea>
+                  <textarea v-model="body" class="form-control" rows="8" placeholder="Write your article (in markdown)"></textarea>
                 </fieldset>
                 <fieldset class="form-group">
-                  <input type="text" class="form-control" placeholder="Enter tags">
+                  <input type="text" v-model="tags" class="form-control" placeholder="Enter tags">
                   <div class="tag-list"></div>
                 </fieldset>
                 <button class="btn btn-lg pull-xs-right btn-primary" type="button">
@@ -32,7 +32,22 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
   name: 'CreateArticle',
+  setup() {
+    const title = ref('');
+    const description = ref('');
+    const body = ref('');
+    const tags = ref('');
+
+    return {
+      title,
+      description,
+      body,
+      tags,
+    };
+  },
 };
 </script>

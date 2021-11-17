@@ -36,20 +36,23 @@ export default {
       commit('setError', null);
 
       if (localStorage.getItem('token')) {
-        axiosInstance.get('/user', {
-          headers: {
-            Authorization: `Token ${localStorage.getItem('token')}`,
-          },
-        }).then(({ data }) => {
-          commit('setUser', data.user);
-        }).catch(({ response }) => {
-          commit('setError', response.data.error);
-          localStorage.removeItem('token');
-        }).finally(() => {
-          commit('setLoading', false);
+        return new Promise((resolve, reject) => {
+          axiosInstance.get('/user', {
+            headers: {
+              Authorization: `Token ${localStorage.getItem('token')}`,
+            },
+          }).then(({ data }) => {
+            commit('setUser', data.user);
+            commit('setAuth', localStorage.getItem('token'));
+            resolve(data.user);
+          }).catch(() => {
+            localStorage.removeItem('token');
+            commit('setAuth', null);
+            reject();
+          });
         });
       }
-      commit('setLoading', false);
+      return false;
     },
     register({ commit }, payload) {
       commit('setLoading', true);
@@ -60,12 +63,12 @@ export default {
           commit('setUser', data.user);
           localStorage.setItem('token', data.user.token);
           commit('setAuth', data.user.token);
+          commit('setLoading', false);
           resolve(data.user);
         }).catch(({ response }) => {
           commit('setError', response.data.errors);
-          reject(response.data.errors);
-        }).finally(() => {
           commit('setLoading', false);
+          reject(response.data.errors);
         });
       });
     },
@@ -77,12 +80,13 @@ export default {
         axiosInstance.post('/users/login', payload).then(({ data }) => {
           commit('setUser', data.user);
           localStorage.setItem('token', data.user.token);
+          commit('setAuth', data.user.token);
+          commit('setLoading', false);
           resolve(data.user);
         }).catch(({ response }) => {
           commit('setError', response.data.errors);
-          reject(response.data.errors);
-        }).finally(() => {
           commit('setLoading', false);
+          reject(response.data.errors);
         });
       });
     },

@@ -33,4 +33,12 @@ export default {
       });
     },
   },
+  createArticle({ commit }) {
+    commit('setLoading', true);
+    commit('setError, false');
+
+    // return new Promise((resolve, reject) => {
+    //   axiosInstance.post('/articles');
+    // });
+  },
 };

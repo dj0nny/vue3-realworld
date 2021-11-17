@@ -2,8 +2,8 @@
   <div class="tag-list" v-if="!loading">
     <span v-if="error"><i>{{ error }}</i></span>
     <div v-else>
-      <div v-if="tagList">
-        <a href="" class="tag-pill tag-default" v-for="(tag, index) in tagList" :key="index">{{ tag }}</a>
+      <div v-if="tagsList">
+        <a href="" class="tag-pill tag-default" v-for="(tag, index) in tagsList" :key="index">{{ tag }}</a>
       </div>
       <div v-else>
          No tags are here... yet.
@@ -17,7 +17,7 @@
 export default {
   name: 'Tags',
   props: [
-    'tagList',
+    'tagsList',
     'error',
     'loading',
   ],

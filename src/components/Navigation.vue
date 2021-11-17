@@ -17,6 +17,11 @@
           </router-link>
         </li>
         <li class="nav-item">
+          <router-link class="nav-link" active-class="active" :to="{ name: 'Profile', params: { user: currentUser.username } }" v-if="isAuth && currentUser">
+            {{ currentUser.username }}
+          </router-link>
+        </li>
+        <li class="nav-item">
           <router-link class="nav-link" active-class="active" :to="{ name: 'SignIn' }" v-if="!isAuth">Sign in</router-link>
         </li>
         <li class="nav-item">
@@ -37,9 +42,11 @@ export default {
     const store = useStore();
 
     const isAuth = computed(() => store.getters['auth/checkAuth']);
+    const currentUser = computed(() => store.getters['auth/getCurrentUser']);
 
     return {
       isAuth,
+      currentUser,
     };
   },
 };
